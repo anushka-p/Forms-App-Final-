@@ -1,0 +1,80 @@
+<div class="container">
+  <app-error-modal
+    *ngIf="errorMessage"
+    [title]="'Dialog Title'"
+    (close)="handleClose()"
+  >
+    <h2>{{ errorMessage }}</h2>
+  </app-error-modal>
+  <div class="screen">
+    <div class="screen__content">
+      <form class="login" #f="ngForm">
+        <div class="login__field">
+          <i class="login__icon fa fa-user"></i>
+          <input
+            type="text"
+            class="login__input"
+            placeholder="User name / Email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            email
+            ngModel
+          />
+        </div>
+        <div class="login__field">
+          <i class="login__icon fa fa-lock"></i>
+          <input
+            type="password"
+            class="login__input"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            ngModel
+          />
+        </div>
+        <button
+          class="button login__submit"
+          (click)="onLogin()"
+          [disabled]="!f.valid"
+        >
+          <span class="button__text">Log In Now</span>
+          <i class="button__icon fa fa-chevron-right"></i>
+        </button>
+        <button class="button login__submit" routerLink="/register">
+          <span class="button__text">Register</span>
+          <i class="button__icon fa fa-chevron-right"></i>
+        </button>
+      </form>
+      <div class="social-login">
+        <!-- <div class="col-md-12"> 
+						<a class="btn btn-sm btn-google btn-block text-uppercase btn-outline g-btn" (click)="onGoogleLogin()">
+							<img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login Using Google</a> </div> -->
+        <div
+          id="g_id_onload"
+          data-client_id="114935174026-vue33dp1c9d494hamomlk1s08taccbd2.apps.googleusercontent.com"
+          data-context="use"
+          data-ux_mode="popup"
+          data-login_uri="http://localhost:3000/auth/login-with-google"
+          data-itp_support="true"
+        ></div>
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left"
+        ></div>
+      </div>
+    </div>
+    <div class="screen__background">
+      <span class="screen__background__shape screen__background__shape4"></span>
+      <span class="screen__background__shape screen__background__shape3"></span>
+      <span class="screen__background__shape screen__background__shape2"></span>
+      <span class="screen__background__shape screen__background__shape1"></span>
+    </div>
+  </div>
+</div>

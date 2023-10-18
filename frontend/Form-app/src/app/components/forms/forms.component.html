@@ -1,0 +1,418 @@
+<div class="container" cdkDropListGroup>
+  <app-error-modal
+    *ngIf="successMsg"
+    [title]="'Dialog Title'"
+    (close)="handleClose()"
+  >
+  <div body-content><h2>{{ successMsg }}</h2></div>
+    
+  </app-error-modal>
+  <div class="controls-container" cdkDropList>
+    <button
+      class="btn btn-primary my-2 mx-2"
+      cdkDrag
+      [cdkDragData]="'text'"
+    >
+      Add Text Field
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'numeric'">
+      Add Numeric Field
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'radio'">
+      Add Radio Field
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'dropdown'">
+      Add Dropdown
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'checkbox'">
+      Add Checkbox
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'textarea'">
+      Add Textarea
+    </button>
+    <button class="btn btn-primary my-2 mx-2" cdkDrag [cdkDragData]="'checklist'">
+      Add Checklist
+    </button>
+  </div>
+  <div class="form-preview" cdkDropList (cdkDropListDropped)="drop($event)">
+    <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+      <div class="fixedContent">
+        <div class="card">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="title of the form"
+            formControlName="title"
+          />
+        </div>
+        <div class="card">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            placeholder="Description of the form"
+            formControlName="description"
+          />
+        </div>
+        <div class="card">
+          <label for="state">State</label>
+          <input
+            type="text"
+            class="form-control"
+            id="state"
+            placeholder="State"
+            formControlName="state"
+          />
+        </div>
+
+        <input
+          type="checkbox"
+          value=""
+          id="flexCheckChecked"
+          formControlName="isChecked"
+          (change)="onCheckboxChange()"
+          checked
+        />
+        <label for="flexCheckChecked">Include a date in the Form?</label>
+      </div>
+
+      <div formArrayName="controls">
+        <ng-container
+          *ngFor="
+            let control of reactiveForm.get('controls')['controls'];
+            let i = index
+          "
+        >
+          <div class="row align-items-center mb-2">
+            <div class="col-auto">
+              <div
+                *ngIf="control.get('type').value === 'text'"
+                class="d-flex align-items-center"
+              >
+                <ng-container
+                  *ngIf="
+                    !control.get('labelConfirmed').value;
+                    else confirmedLabel
+                  "
+                >
+                  <input
+                    type="text"
+                    [formControl]="control.get('label')"
+                    placeholder="Add a Text Label"
+                    class="form-control me-2"
+                  />
+                  <button
+                    (click)="confirmLabel(control)"
+                    class="btn btn-primary btn-sm mt-2"
+                  >
+                    Confirm Label
+                  </button>
+                </ng-container>
+              </div>
+              <div
+                *ngIf="control.get('type').value === 'numeric'"
+                class="d-flex align-items-center"
+              >
+                <ng-container
+                  *ngIf="
+                    !control.get('labelConfirmed').value;
+                    else confirmedLabel
+                  "
+                >
+                  <input
+                    type="text"
+                    [formControl]="control.get('label')"
+                    placeholder="Add a Numeric Label"
+                    class="form-control me-2"
+                  />
+                  <button
+                    (click)="confirmLabel(control)"
+                    class="btn btn-primary btn-sm mt-2"
+                  >
+                    Confirm Label
+                  </button>
+                </ng-container>
+              </div>
+              <!-- Inside the formArrayName="controls" ng-container -->
+
+              <!-- radio -->
+              <div
+                *ngIf="control.get('type').value === 'radio'"
+                class="d-flex align-items-center card radio-div"
+              >
+              
+                <ng-container
+                  *ngIf="
+                    !control.get('labelConfirmed').value;
+                  "
+                >
+                  <input
+                    type="text"
+                    [formControl]="control.get('label')"
+                    placeholder="Add a Radio Label"
+                    class="form-control me-2"
+                  />
+                  <button
+                    (click)="confirmLabel(control)"
+                    class="btn btn-primary btn-sm mt-2"
+                  >
+                    Confirm Label
+                  </button>
+                </ng-container>
+                <div *ngIf="control.get('labelConfirmed').value">
+                  <label class="cnf-radio-label">{{
+                    control.get("label").value
+                  }}</label> 
+                    <div
+                      *ngFor="
+                        let option of control.get('options')['controls'];
+                        let j = index"
+                    >
+                      <input
+                        type="text"
+                        [formControl]="option.get('value')"
+                        placeholder="Add an option"
+                        class="form-control me-2"
+                      />
+                      <button
+                        (click)="removeOption(control, j)"
+                        class="btn btn-danger btn-sm my-2"
+                      >
+                        Remove Option
+                      </button>
+                    </div>
+                  <button
+                  type="button"
+                    (click)="addOption(control)"
+                    class="btn btn-success  mx-2"
+                  >
+                    Add Option
+                  </button>
+                  <button
+                  type="button"
+                    (click)="removeControl(i)"
+                    class="btn btn-danger mx-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <!-- radio end  -->
+              <!-- checklist start  -->
+              <div
+                *ngIf="control.get('type').value === 'checklist'"
+                class="d-flex align-items-center card radio-div"
+              >
+              
+                <ng-container
+                  *ngIf="
+                    !control.get('labelConfirmed').value;
+                  "
+                >
+                  <input
+                    type="text"
+                    [formControl]="control.get('label')"
+                    placeholder="Add a CheckList Label"
+                    class="form-control me-2"
+                  />
+                  <button
+                    (click)="confirmLabel(control)"
+                    class="btn btn-primary btn-sm mt-2"
+                  >
+                    Confirm Label
+                  </button>
+                </ng-container>
+                <div *ngIf="control.get('labelConfirmed').value">
+                  <label class="cnf-radio-label">{{
+                    control.get("label").value
+                  }}</label> 
+                    <div
+                      *ngFor="
+                        let option of control.get('options')['controls'];
+                        let j = index"
+                    >
+                      <input
+                        type="text"
+                        [formControl]="option.get('value')"
+                        placeholder="Add an option"
+                        class="form-control me-2"
+                      />
+                      <button
+                        (click)="removeOption(control, j)"
+                        class="btn btn-danger btn-sm my-2"
+                      >
+                        Remove Option
+                      </button>
+                    </div>
+                  <button
+                  type="button"
+                    (click)="addOption(control)"
+                    class="btn btn-success  mx-2"
+                  >
+                    Add Option
+                  </button>
+                  <button
+                  type="button"
+                    (click)="removeControl(i)"
+                    class="btn btn-danger mx-2"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <!-- checklist end  -->
+              <!-- dropdown start  -->
+              <div
+              *ngIf="control.get('type').value === 'dropdown'"
+              class="d-flex align-items-center card radio-div"
+            >
+            
+              <ng-container
+                *ngIf="
+                  !control.get('labelConfirmed').value;
+                "
+              >
+                <input
+                  type="text"
+                  [formControl]="control.get('label')"
+                  placeholder="Add a Dropdown Label"
+                  class="form-control me-2"
+                />
+                <button
+                  (click)="confirmLabel(control)"
+                  class="btn btn-primary btn-sm mt-2"
+                >
+                  Confirm Label
+                </button>
+              </ng-container>
+              <div *ngIf="control.get('labelConfirmed').value">
+                <label class="cnf-radio-label">{{
+                  control.get("label").value
+                }}</label> 
+                  <div
+                    *ngFor="
+                      let option of control.get('options')['controls'];
+                      let j = index"
+                  >
+                    <input
+                      type="text"
+                      [formControl]="option.get('value')"
+                      placeholder="Add an option"
+                      class="form-control me-2"
+                    />
+                    <button
+                      (click)="removeOption(control, j)"
+                      class="btn btn-danger btn-sm my-2"
+                    >
+                      Remove Option
+                    </button>
+                  </div>
+                <button
+                type="button"
+                  (click)="addOption(control)"
+                  class="btn btn-success  mx-2"
+                >
+                  Add Option
+                </button>
+                <button
+                type="button"
+                  (click)="removeControl(i)"
+                  class="btn btn-danger mx-2"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+            <!-- dropdown end  -->
+            <!-- checkbox start -->
+            <div
+            *ngIf="control.get('type').value === 'checkbox'"
+            class="d-flex align-items-center"
+          >
+            <ng-container
+              *ngIf="
+                !control.get('labelConfirmed').value;
+                else confirmedLabel
+              "
+            >
+              <input
+                type="text"
+                [formControl]="control.get('label')"
+                placeholder="Add a Checkbox Label"
+                class="form-control me-2"
+              />
+              <button
+                (click)="confirmLabel(control)"
+                class="btn btn-primary btn-sm mt-2"
+              >
+                Confirm Label
+              </button>
+            </ng-container>
+          </div>
+          <!-- checkbox end  -->
+          <!-- textarea start  -->
+          <div
+          *ngIf="control.get('type').value === 'textarea'"
+          class="d-flex align-items-center"
+        >
+          <ng-container
+            *ngIf="
+              !control.get('labelConfirmed').value;
+              else confirmedLabel
+            "
+          >
+            <input
+              type="text"
+              [formControl]="control.get('label')"
+              placeholder="Add a Textarea Label"
+              class="form-control me-2"
+            />
+            <button
+              (click)="confirmLabel(control)"
+              class="btn btn-primary btn-sm mt-2"
+            >
+              Confirm Label
+            </button>
+          </ng-container>
+        </div>
+        <!-- textarea end  -->
+            </div>
+            <div class="col ">
+              <ng-template #confirmedLabel>
+                <div class="card final-div">
+                
+                <input type="checkbox" 
+                [formControl]="control.get('value')"
+                *ngIf="control.get('type').value === 'checkbox'"
+                class="check">
+                <label
+                  class="cnf-label"
+                  *ngIf="control.get('type').value !== 'dropdown' && control.get('type').value !== 'radio'"
+                  >{{ control.get("label").value }}</label
+                >
+                <textarea 
+                [formControl]="control.get('value')"
+                *ngIf="control.get('type').value === 'textarea'"
+                class="check"> </textarea>
+                <input
+                  type="text"
+                  [formControl]="control.get('value')"
+                  *ngIf="control.get('type').value === 'text' || control.get('type').value === 'numeric'"
+                  class="form-control final-input"
+                /> </div>
+                <button (click)="removeControl(i)" class="btn btn-danger mx-2">
+                  Remove
+                </button>
+             
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <button type="submit" class="btn btn-info btn-sm mt-3 submit">Submit</button>
+    </form>
+  </div>
+</div>

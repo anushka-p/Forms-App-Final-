@@ -1,0 +1,51 @@
+<div class="parent">
+    <app-error-modal
+    *ngIf="successMsg"
+    [title]="'Dialog Title'"
+    [showOkButton]="true"
+    (okClick)="handleOkClick()"
+    (close)="handleClose()"
+  >
+  <div body-content><h2>{{ successMsg }}</h2></div>
+    
+  </app-error-modal>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h2>ALL <b>Forms</b></h2>
+                  </div>
+                  
+                </div>
+              </div>
+              <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">Form ID</th>
+                        <th class="col-sm-3">Form Title</th>
+                        <th class="col-sm-3">State</th>
+                        <th class="col-sm-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let form of forms">
+                        <td>{{form.id}}</td>
+                        <td>{{form.title}}</td>
+                        <td>
+                            {{form.state}}
+                        </td>
+                        <td>
+                            <i class="fa fa-edit" routerLink="{{form.id}}"></i>
+                        </td>
+                        <td>
+                            <i class="fa fa-trash" aria-hidden="true" (click)="deleteForm(form.id)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>

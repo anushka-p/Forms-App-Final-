@@ -1,0 +1,54 @@
+  <div class="parent">
+  <div class="container">
+    <div class="error" *ngIf="errorMessage!== null">
+    <span class="details">{{errorMessage}}</span>
+  </div>
+    <div class="title">Registration</div>
+    <div class="content">
+      <form action="#">
+        <div class="user-details">
+          
+          <div class="input-box">
+            <span class="details">Username</span>
+            <input type="text" placeholder="Enter your username" required name="username" [(ngModel)]="username">
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="text" placeholder="Enter your email" required email name="useremail" [(ngModel)]="useremail">
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="text" placeholder="Enter your password" required name="password" [(ngModel)]="password">
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="text" placeholder="Confirm your password" required>
+          </div>
+          <div class="input-box">
+            <span class="details">State</span>
+            <input type="text" placeholder="state" required name="state" [(ngModel)]="state">
+          </div>
+          <div class="dropdown drop">
+            <button class="btn btn-secondary dropdown-toggle drop-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Role
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item"(click)="role= 'admin'" >Admin</a></li>
+              <li><a class="dropdown-item"(click)="role = 'user'">User</a></li>
+            </ul>
+          </div>
+        </div>
+       
+        <div class="button-container">
+          <div class="button" (click)="onRegister()">
+            <input type="submit" value="Register">
+          </div>
+          <div class="button" routerLink="">
+            <input type="submit" value="Login">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

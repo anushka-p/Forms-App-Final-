@@ -1,0 +1,39 @@
+<div class="parent">
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h2>Available <b>Forms</b></h2>
+                  </div>
+                  
+                </div>
+              </div>
+              <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-sm-3">Form ID</th>
+                        <th class="col-sm-3">Form Title</th>
+                        <th class="col-sm-3">Actions</th>
+                        <th class="col-sm-3">Others</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let form of forms">
+                        <td>{{form.id}}</td>
+                        <td>{{form.title}}</td>
+                        <td>
+                            <button routerLink="{{form.id}}" class="btn btn-primary btn-sm">Submit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" routerLink="other-submissions/{{form.id}}/{{form.state}}">View other submissions</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+    <router-outlet></router-outlet>
+    </div>
+</div>

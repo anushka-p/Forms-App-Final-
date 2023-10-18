@@ -1,0 +1,78 @@
+<div class="parent">
+  <app-error-modal *ngIf="errorMessage"  [title]="'Dialog Title'" (close)="handleClose()">
+		<h2>{{ errorMessage }}</h2>
+	</app-error-modal>
+<div class="form">
+  <div class="title-div">
+    <div>Form Title -- {{formData.title}}</div>
+    <div>Form Description -- {{formData.description}}</div>
+    <div>Form for State: {{formData.state}}</div>
+    <div *ngIf="formData.dateprovided">Form was created on-- {{createdAt}}</div>
+  </div>
+
+  <!-- Loop through form fields -->
+  <ng-container *ngFor="let control of controlsArray">
+    <div class="name-div" *ngIf="control.type === 'text' || control.type === 'numeric'">
+      <div class="name">{{control.label}}<span class="required">*</span></div>
+      <div class="input-div">
+        <input *ngIf="control.type === 'text'" type="text" name="answer" placeholder="Your text answer" [(ngModel)]="control.value" [disabled]="isfilled">
+        <input *ngIf="control.type === 'numeric'" type="number" name="answer" placeholder="Your numeric answer" [(ngModel)]="control.value" [disabled]="isfilled">
+      </div>
+    </div>
+    <div class="name-div" *ngIf="control.type === 'radio'">
+      <div class="name">{{control.label}}<span class="required">*</span></div>
+      <ng-container *ngFor="let option of control.options">
+        <div class="radio">
+          <input
+          type="radio"
+          name="{{control.id}}"
+          [(ngModel)]="control.selectedOption"
+          [value]="option.id"
+          [disabled]="isfilled"
+        >
+        {{ option.value }}
+      </div>
+      </ng-container>
+    </div>
+    <div class="name-div" *ngIf="control.type === 'dropdown'">
+      <div class="name">{{ control.label }}<span class="required">*</span></div>
+      <div class="input-div">
+        <select [(ngModel)]="selectedOption" [disabled]="isfilled">
+          <option *ngFor="let option of control.options" [value]="option.id">{{ option.value }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="name-div" *ngIf="control.type === 'checkbox'">
+      <div class="input-div">
+        <input class="checkbox" type="checkbox" name="checkbox" [(ngModel)]="control.value" [disabled]="isfilled" >
+        {{ control.label }}<span class="required">*</span>
+      </div>
+     
+    </div>
+    <div class="name-div" *ngIf="control.type === 'textarea'">
+      <div class="name">{{ control.label }}<span class="required">*</span></div>
+      <div class="input-div">
+        <textarea name="textarea" [(ngModel)]="control.value" [disabled]="isfilled"></textarea>
+      </div>
+    </div>
+    <div class="name-div" *ngIf="control.type === 'checklist'">
+      <div class="name">{{ control.label }}<span class="required">*</span></div>
+      <ng-container *ngFor="let option of control.options">
+        <div class="checkbox">
+          <input
+            type="checkbox"
+            [(ngModel)]="option.selected"
+            [disabled]="isfilled"
+          >
+          {{ option.value }}
+        </div>
+      </ng-container>
+    </div>
+  
+  </ng-container>
+
+  <div *ngIf="!isfilled">
+    <input class="btn" type="submit" name="Submit" (click)="submitData()">
+  </div>  
+</div>
+</div>

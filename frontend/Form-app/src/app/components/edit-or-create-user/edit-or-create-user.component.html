@@ -1,0 +1,48 @@
+<div class="parent">
+    <div class="container">
+      <div class="error" *ngIf="errorMessage!== null">
+      <span class="details">{{errorMessage}}</span>
+    </div>
+      <div class="title">{{heading}}</div>
+      <div class="content">
+        <form action="#">
+          <div class="user-details">
+            
+            <div class="input-box">
+              <span class="details">Username</span>
+              <input type="text" placeholder="Enter your username" required name="username" [(ngModel)]="username">
+            </div>
+            <div class="input-box">
+              <span class="details">Email</span>
+              <input type="text" placeholder="Enter your email" required email name="useremail" [(ngModel)]="useremail">
+            </div>
+            <div class="input-box" *ngIf="formType == 'create'">
+              <span class="details">Password</span>
+              <input type="text" placeholder="Enter your password" required email name="password" [(ngModel)]="password">
+            </div>
+            <div class="input-box" *ngIf="formType == 'create'">
+              <span class="details">Confirm Password</span>
+              <input type="text" placeholder="Confirm Password" required email name="confirmPass" [(ngModel)]="confirmPass">
+            </div>
+            
+            <div class="input-box">
+              <span class="details">Role</span>
+              <input type="text" placeholder="Enter your password" required name="role" [(ngModel)]="role">
+            </div>
+            <div class="input-box">
+              <span class="details">State</span>
+              <input type="text" placeholder="state" required name="state" [(ngModel)]="state">
+            </div>
+            
+          </div>
+            <div class="button"  (click)="onEditDetails()" *ngIf="formType == 'edit'">
+              <input type="submit" value="Edit Details">
+            </div>
+            <div class="button"  (click)="onCreateUser()" *ngIf="formType =='create'">
+                <input type="submit" value="Create User">
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

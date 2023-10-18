@@ -1,0 +1,13 @@
+<div class="backdrop" (click)="closeDialog()"></div>
+<div class="dialog">
+  <header>
+    <ng-content select="[header-content]"></ng-content>
+  </header>
+  <section>
+    <ng-content select="[body-content]"></ng-content>
+  </section>
+  <menu>
+    <button class="close-button" (click)="closeDialog()">Close</button>
+    <button *ngIf="showOkButton"  (click)="okClick.emit()">OK</button>
+  </menu>
+</div>
